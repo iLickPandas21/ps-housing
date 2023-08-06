@@ -3,7 +3,7 @@ Property = {
     propertyData = nil,
     playersInside = {},   -- src
     playersDoorbell = {}, -- src
-
+    locked = true,
     raiding = false,
 }
 Property.__index = Property
@@ -26,6 +26,7 @@ function Property:PlayerEnter(src)
     local _src = tostring(src)
     self.playersInside[_src] = true
 
+    TriggerClientEvent('InteractSound_CL:PlayOnOne', src, "houses_door_open", 0.25)
     TriggerClientEvent('qb-weathersync:client:DisableSync', src)
     TriggerClientEvent('ps-housing:client:enterProperty', src, self.property_id)
 
@@ -38,7 +39,7 @@ function Property:PlayerEnter(src)
 
     local citizenid = GetCitizenid(src)
 
-    if self:CheckForAccess(citizenid) then
+    if self:CheckForAccess(citizenid) or not self.locked then
         local Player = QBCore.Functions.GetPlayer(src)
         local insideMeta = Player.PlayerData.metadata["inside"]
 
@@ -54,11 +55,12 @@ function Property:PlayerLeave(src)
     local _src = tostring(src)
     self.playersInside[_src] = nil
 
+    TriggerClientEvent('InteractSound_CL:PlayOnOne', src, "houses_door_open", 0.25)
     TriggerClientEvent('qb-weathersync:client:EnableSync', src)
 
     local citizenid = GetCitizenid(src)
 
-    if self:CheckForAccess(citizenid) then
+    if self:CheckForAccess(citizenid) or not self.locked then
         local Player = QBCore.Functions.GetPlayer(src)
         local insideMeta = Player.PlayerData.metadata["inside"]
 
@@ -72,6 +74,29 @@ end
 function Property:CheckForAccess(citizenid)
     if self.propertyData.owner == citizenid then return true end
     return lib.table.contains(self.propertyData.has_access, citizenid)
+end
+
+function Property:ToggleLocks(src)
+    local citizenid = GetCitizenid(src)
+    if self.locked then
+        return self:Unlock(citizenid)
+    else
+        return self:Lock(citizenid)
+    end
+end
+
+function Property:Unlock(citizenid)
+    if self:CheckForAccess(citizenid) then
+        self.locked = false
+    end
+    return nil
+end
+
+function Property:Lock(citizenid)
+    if self:CheckForAccess(citizenid) then
+        self.locked = true
+    end
+    return nil
 end
 
 function Property:AddToDoorbellPoolTemp(src)
@@ -266,14 +291,49 @@ function Property:UpdateOwner(data)
 
     if prevPlayer ~= nil then
         Framework[Config.Notify].Notify(prevPlayer.PlayerData.source, "Sold Property: " .. self.propertyData.street .. " " .. self.property_id, "success")
+        -- Sold a house from player to player
+        
+        local SenderName = ("%s %s"):format(targetPlayer.PlayerData.charinfo.firstname, targetPlayer.PlayerData.charinfo.lastname)
+        local RecieverName = ("%s %s"):format(prevPlayer.PlayerData.charinfo.firstname, prevPlayer.PlayerData.charinfo.lastname)
+        local trans = exports['Renewed-Banking']:handleTransaction(prevPlayer.PlayerData.citizenid, "Property Sale", totalAfterCommission, "Sold Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "deposit")
+
+        RecieverName = ("%s %s"):format(prevPlayer.PlayerData.charinfo.firstname, prevPlayer.PlayerData.charinfo.lastname)
+        trans = exports['Renewed-Banking']:handleTransaction(targetPlayer.PlayerData.citizenid, "Property Purchase", totalAfterCommission, "Purchased Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "withdraw")
+       
+        RecieverName = ("%s %s"):format(realtor.PlayerData.charinfo.firstname, realtor.PlayerData.charinfo.lastname)
+        trans = exports['Renewed-Banking']:handleTransaction(targetPlayer.PlayerData.citizenid, "Property Commission", commission, "Purchased Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "withdraw")
+       
         prevPlayer.Functions.AddMoney('bank', totalAfterCommission, "Sold Property: " .. self.propertyData.street .. " " .. self.property_id)
     elseif previousOwner then
-        MySQL.Async.execute('UPDATE `players` SET `bank` = `bank` + @price WHERE `citizenid` = @citizenid', {
-            ['@citizenid'] = previousOwner,
-            ['@price'] = totalAfterCommission
-        })
+        prevPlayer = QBCore.Functions.GetOfflinePlayerByCitizenId(previousOwner)
+        local SenderName = ("%s %s"):format(targetPlayer.PlayerData.charinfo.firstname, targetPlayer.PlayerData.charinfo.lastname)
+        local RecieverName = ("%s %s"):format(prevPlayer.PlayerData.charinfo.firstname, prevPlayer.PlayerData.charinfo.lastname)
+        local trans = exports['Renewed-Banking']:handleTransaction(previousOwner, "Property Sale", totalAfterCommission, "Sold Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "deposit")
+        
+        RecieverName = ("%s %s"):format(prevPlayer.PlayerData.charinfo.firstname, prevPlayer.PlayerData.charinfo.lastname)
+        trans = exports['Renewed-Banking']:handleTransaction(targetPlayer.PlayerData.citizenid, "Property Purchase", totalAfterCommission, "Purchased Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "withdraw")
+        
+        RecieverName = ("%s %s"):format(realtor.PlayerData.charinfo.firstname, realtor.PlayerData.charinfo.lastname)
+        trans = exports['Renewed-Banking']:handleTransaction(targetPlayer.PlayerData.citizenid, "Property Commission", commission, "Purchased Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "withdraw")
+       
+        prevPlayer.Functions.AddMoney('bank', totalAfterCommission, "Sold Property: " .. self.propertyData.street .. " " .. self.property_id)
+    else
+        local SenderName = ("%s %s"):format(targetPlayer.PlayerData.charinfo.firstname, targetPlayer.PlayerData.charinfo.lastname)
+        local RecieverName = "Real Estate"
+        local trans = exports['Renewed-Banking']:handleTransaction("realestate", "Property Sale", totalAfterCommission, "Sold Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "deposit")
+
+        trans = exports['Renewed-Banking']:handleTransaction(targetPlayer.PlayerData.citizenid, "Property Purchase", totalAfterCommission, "Purchased Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "withdraw")
+        
+        RecieverName = ("%s %s"):format(realtor.PlayerData.charinfo.firstname, realtor.PlayerData.charinfo.lastname)
+        trans = exports['Renewed-Banking']:handleTransaction(targetPlayer.PlayerData.citizenid, "Property Commission", commission, "Purchased Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "withdraw")
+       
+        exports['Renewed-Banking']:addAccountMoney("realestate", totalAfterCommission)
     end
     
+    local SenderName = ("%s %s"):format(targetPlayer.PlayerData.charinfo.firstname, targetPlayer.PlayerData.charinfo.lastname)
+    local RecieverName = ("%s %s"):format(realtor.PlayerData.charinfo.firstname, realtor.PlayerData.charinfo.lastname)
+    local trans = exports['Renewed-Banking']:handleTransaction(realtor.PlayerData.citizenid, "Property Commission", commission, "Sold Property: " .. self.propertyData.street .. " " .. self.property_id, RecieverName, SenderName, "deposit")
+        
     realtor.Functions.AddMoney('bank', commission, "Commission from Property: " .. self.propertyData.street .. " " .. self.property_id)
 
     self.propertyData.owner = citizenid
@@ -433,6 +493,7 @@ function Property.Get(property_id)
 end
 
 RegisterNetEvent('ps-housing:server:enterProperty', function (property_id)
+    
     local src = source
     Debug("Player is trying to enter property", property_id)
 
@@ -445,7 +506,7 @@ RegisterNetEvent('ps-housing:server:enterProperty', function (property_id)
 
     local citizenid = GetCitizenid(src)
 
-    if property:CheckForAccess(citizenid) then
+    if property:CheckForAccess(citizenid) or not property.locked then
         Debug("Player has access to property")
         property:PlayerEnter(src)
         Debug("Player entered property")
@@ -556,6 +617,22 @@ RegisterNetEvent('ps-housing:server:leaveProperty', function (property_id)
     property:PlayerLeave(src)
 end)
 
+RegisterNetEvent('ps-housing:server:toggleLocks', function (property_id)
+    local src = source
+    local property = Property.Get(property_id)
+
+    if not property then return end
+
+    local newLockState = property:ToggleLocks(src)
+    if newLockState == nil then
+        Framework[Config.Notify].Notify(src, "You're not allowed to do this", "error")
+    elseif newLockState then
+        Framework[Config.Notify].Notify(src, "The doors are now locked!", "success")
+    else
+        Framework[Config.Notify].Notify(src, "The doors are now unlocked!", "success")
+    end
+end)
+
 -- When player presses doorbell, owner can let them in and this is what is triggered
 RegisterNetEvent("ps-housing:server:doorbellAnswer", function (data) 
     local src = source
@@ -593,6 +670,11 @@ RegisterNetEvent("ps-housing:server:buyFurniture", function(property_id, items, 
     end
 
     if price > PlayerData.money.bank then
+<<<<<<< Updated upstream
+=======
+        Player.Functions.RemoveMoney('cash', price, "Bought furniture")
+    else
+>>>>>>> Stashed changes
         Player.Functions.RemoveMoney('bank', price, "Bought furniture")
     else
         Player.Functions.RemoveMoney('cash', price, "Bought furniture")

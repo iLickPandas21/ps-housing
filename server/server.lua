@@ -84,8 +84,12 @@ AddEventHandler("ps-housing:server:registerProperty", function (propertyData) --
         property:PlayerEnter(src)
 
         Wait(1000)
-
-        TriggerClientEvent("qb-clothes:client:CreateFirstCharacter", src)
+        -- This is so that we dont force migrated people to create first character
+        local shouldJustMigrate = MySQL.query.await("SELECT citizenid FROM player_apartment_migrations WHERE citizenid = ?", { propertyData.owner })
+        if not shouldJustMigrate or not shouldJustMigrate[1] then
+            TriggerClientEvent("qb-clothes:client:CreateFirstCharacter", src)
+            MySQL.insert.await("INSERT INTO player_apartment_migrations (citizenid) VALUES (@cid)", { ["@cid"] = propertyData.owner })
+        end
 
         Framework[Config.Notify].Notify(src, "Open radial menu for furniture menu and place down your stash and clothing locker.", "info")
 
@@ -105,7 +109,7 @@ lib.callback.register("ps-housing:cb:GetOwnedApartment", function(source, cid)
     else
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
-        local result = MySQL.query.await('SELECT * FROM apartments WHERE owner_citizenid = ? AND apartment IS NOT NULL AND apartment <> ""', { Player.PlayerData.citizenid })
+        local result = MySQL.query.await('SELECT * FROM properties WHERE owner_citizenid = ? AND apartment IS NOT NULL AND apartment <> ""', { Player.PlayerData.citizenid })
         if result[1] ~= nil then
             return result[1]
         end

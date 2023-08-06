@@ -170,7 +170,7 @@ Framework.qb = {
         })
     end,
 
-    AddDoorZoneInside = function(coords, size, heading, leave, checkDoor)
+    AddDoorZoneInside = function(coords, size, heading, leave, checkDoor, toggleLocks)
         exports["qb-target"]:AddBoxZone(
             "shellExit",
             vector3(coords.x, coords.y, coords.z),
@@ -194,6 +194,11 @@ Framework.qb = {
                         label = "Check Door",
                         action = checkDoor,
                         icon = "fas fa-bell",
+                    },
+                    {
+                        label = "Toggle Locks",
+                        action = toggleLocks,
+                        icon = "fas fa-door-open",
                     },
                 },
             }
@@ -266,6 +271,7 @@ Framework.qb = {
     end,
 
     OpenInventory = function (stash, stashConfig)
+        TriggerServerEvent("InteractSound_SV:PlayOnSource", "StashOpen", 0.4)
         TriggerServerEvent("inventory:server:OpenInventory", "stash", stash, stashConfig)
         TriggerEvent("inventory:client:SetCurrentStash", stash)
     end,
@@ -397,7 +403,7 @@ Framework.ox = {
         return handler
     end,
 
-    AddDoorZoneInside = function (coords, size, heading, leave, checkDoor)
+    AddDoorZoneInside = function (coords, size, heading, leave, checkDoor, toggleLocks)
         local handler = exports.ox_target:addBoxZone({
             coords = vector3(coords.x, coords.y, coords.z), --z = 3.0
             size = vector3(size.y, size.x, size.z),
@@ -415,6 +421,12 @@ Framework.ox = {
                     label = "Check Door",
                     onSelect = checkDoor,
                     icon = "fas fa-bell",
+                },
+                {
+                    name = "locks",
+                    label = "Toggle Locks",
+                    action = toggleLocks,
+                    icon = "fas fa-door-open",
                 },
             },
         })

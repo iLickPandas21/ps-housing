@@ -98,11 +98,15 @@ function Property:RegisterDoorZone(offset)
         self:OpenDoorbellMenu()
     end
 
+    local function toggleLocks()
+        self:ToggleLocks()
+    end
+
     local coords = offset
     local size = vector3(1.0, self.shellData.doorOffset.width, 3.0)
     local heading = self.shellData.doorOffset.h
 
-    self.exitTarget = Framework[Config.Target].AddDoorZoneInside(coords, size, heading, leave, checkDoor)
+    self.exitTarget = Framework[Config.Target].AddDoorZoneInside(coords, size, heading, leave, checkDoor, toggleLocks)
 end
 
 function Property:RegisterPropertyEntrance()
@@ -158,8 +162,14 @@ end
 function Property:RegisterGarageZone()
     if not next(self.propertyData.garage_data) then return end
 
-    if not (self.has_access or self.owner) or not self.owner then
-        return
+    if Config.AllowAccessToGarage then
+        if not (self.has_access or self.owner) then    
+            return
+        end 
+    else
+        if not (self.has_access or self.owner) or not self.owner then
+            return
+        end
     end
 
     local garageData = self.propertyData.garage_data
@@ -181,7 +191,7 @@ function Property:RegisterGarageZone()
     self.garageZone = lib.zones.box({
         coords = vec3(garageData.x, garageData.y, garageData.z),
         size = vector3(garageData.length + 5.0, garageData.width + 5.0, 3.5),
-        rotation = 45,
+        rotation = garageData.h,
         debug = Config.DebugMode,
         onEnter = function()
             TriggerEvent('qb-garages:client:setHouseGarage', self.property_id, true)
@@ -245,6 +255,12 @@ function Property:LeaveShell()
     self.inProperty = false
     Wait(250)
     DoScreenFadeIn(250)
+end
+
+
+function Property:ToggleLocks()
+    if not self.inProperty then return end
+    TriggerServerEvent("ps-housing:server:toggleLocks", self.property_id)
 end
 
 function Property:GiveMenus()
@@ -424,6 +440,9 @@ function Property:OpenDoorbellMenu()
 end
 
 function Property:LoadFurniture(furniture)
+    if not furniture then
+        return
+    end
     local coords = GetOffsetFromEntityInWorldCoords(self.shellObj, furniture.position.x, furniture.position.y, furniture.position.z)
     local hash = furniture.object
 
@@ -467,6 +486,9 @@ function Property:LoadFurnitures()
 end
 
 function Property:UnloadFurniture(furniture, index)
+    if not furniture then
+        return
+    end
     local entity = furniture.entity
 
     if not entity then 

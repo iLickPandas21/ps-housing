@@ -7,16 +7,22 @@ exports('GetApartments', function() return ApartmentsTable end)
 Config = {}
 
 -- If you're not utilizing ox_lib, it's time to question your approach.
+<<<<<<< Updated upstream
 Config.Target = "ox" -- "ox" or "qb"
 Config.Notify = "ox" -- "ox" or "qb"
 Config.Radial = "ox" -- "ox" or "qb"
+=======
+Config.Target = "qb" -- "ox" or "qb"
+Config.Notify = "qb" -- "ox" or "qb"
+Config.Radial = "qb" -- "ox" or "qb"
+>>>>>>> Stashed changes
 Config.Inventory = "qb" -- "ox" or "qb"
 
 -- Anyone provided with keys to a property has the ability to modify its furnishings.
 Config.AccessCanEditFurniture = true
 
 -- Draw the poly for the property
-Config.DebugMode = true
+Config.DebugMode = false
 
 function Debug(...)
     if Config.DebugMode then
@@ -25,7 +31,10 @@ function Debug(...)
 end
 
 -- Enables Dynamic Doors
-Config.DynamicDoors = false
+Config.DynamicDoors = true
+
+-- If you set it to true, anyone you allow access to your property will also be able to access your garage.
+Config.AllowAccessToGarage = true
 
 Config.PoliceJobNames = {  -- add multiple police jobs that are allowed to raid properties!
     "police",
@@ -37,90 +46,54 @@ Config.MinGradeToRaid = 3  -- Minimum grade to raid a property
 
 Config.RaidTimer = 5-- 5 minutes
 
-Config.RealtorJobName = "realtor" -- Set your Real Estate job here
+Config.RealtorJobName = "realestate" -- Set your Real Estate job here
 
 -- Realtor Commisions based on job grade, the rest goes to the owner, if any.
 Config.Commissions = {
-    [0] = 0.05, -- 5% commision for each sale
-    [1] = 0.10,
-    [2] = 0.15,
-    [3] = 0.20,
+    [0] = 0.02, -- 5% commision for each sale
+    [1] = 0.03,
+    [2] = 0.05,
+    [3] = 0.07,
+    [4] = 0.10,
 }
 
 -- Set this value to false if you don't want to assign a starting apartment.
 Config.StartingApartment = true
 
 Config.Apartments = {
-    ["Integrity Way"] = {
-        label = "Integrity Way",
-        door = { x = 269.73, y = -640.75, z = 42.02, h = 249.07, length = 1, width = 2 },
+    ["Alta Street"] = {
+        label = "Alta Street",
+        door = { x = -270.7968, y = -958.9908, z = 31.5664, h = 124.0452, length = 1, width = 2 },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1102801782452785162/1106153553283784704/integrity.webp",
+                url = "https://i.imgur.com/4ZKoNsN.jpeg",
                 label = "Outside",
             },
         },
         shell = "Apartment Furnished",
     },
-    
-    ["South Rockford Drive"] = {
-        label = "South Rockford Drive",
-        door = { x = -667.02, y = -1105.24, z = 14.63, h = 242.32, length = 1, width = 2 },
+    ["Pink Cage"] = {
+        label = "Pink Cage",
+        door = { x = 312.9872, y = -198.0693, z = 54.4562, h = 68.6402, length = 1, width = 2 },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1102801782452785162/1106154069426458665/integrity_1.webp",
+                url = "https://i.imgur.com/rI1uTHD.jpeg",
                 label = "Outside",
             },
         },
-        shell = "Apartment Furnished",
+        shell = "Apartment Unfurnished",
     },
-
-    ['Morningwood Blvd'] = {
-        label = 'Morningwood Blvd',
-        door = { x = -1288.52, y = -430.51, z = 35.15, h = 124.81, length = 1, width = 2 },
-        imgs = {
-            {
-                url = "https://media.discordapp.net/attachments/1081260007129092146/1125035016905298021/morningwood.webp?width=1280&height=671",
-                label = "Outside",
-            },
-        },
-        shell = "Apartment Furnished",
-    },
-
-    ['Tinsel Towers'] = {
-        label = 'Tinsel Towers',
-        door = { x = -619.29, y = 37.69, z = 43.59, h = 181.03, length = 1, width = 2 },
-        imgs = {
-            {
-                url = "https://cdn.discordapp.com/attachments/1102801782452785162/1106154069426458665/integrity_1.webp",
-                label = "Outside",
-            },
-        },
-        shell = "Apartment Furnished",
-    },
-
-    ['Fantastic Plaza'] = {
-        label = 'Fantastic Plaza',
-        door = { x = 291.517, y = -1078.674, z = 29.405, h = 270.75, length = 1, width = 2 },
-        imgs = {
-            {
-                url = "https://media.discordapp.net/attachments/1081260007129092146/1125035016221638686/fantasticplaza.webp?width=1281&height=671",
-                label = "Outside",
-            },
-        },
-        shell = "Apartment Furnished",
-    }
 }
 
 -- Shells provided by K4MB1 https://www.k4mb1maps.com/
 Config.Shells = {
-    ["Standard Motel"] = {
+    ["Standard Motel"] = { 
         label = "Standard Motel",
         hash = `standardmotel_shell`,
-        doorOffset = { x = -0.5, y = -2.3, z = 0.0, h = 90.0, width = 1.5 },
+        doorOffset = { x = -0.375671, y = -2.384308, z = -2.546356, h = 93.725662, width = 2.0 },
         stash = {
-            maxweight = 100000, 
-            slots = 12,
+            maxweight = 1000000, 
+            slots = 20,
         },
         imgs = {
             {
@@ -130,10 +103,10 @@ Config.Shells = {
         }
     },
 
-    ["Modern Hotel"] = {
+    ["Modern Hotel"] = { 
         label = "Modern Hotel",
         hash = `modernhotel_shell`,
-        doorOffset = { x = 4.98, y = 4.35, z = 0.0, h = 179.79, width = 2.0  },
+        doorOffset = { x = 4.98, y = 4.35, z = 0.0, h = 179.79, width = 2.0 },
         stash = {
             maxweight = 150000, 
             slots = 20,
@@ -150,13 +123,13 @@ Config.Shells = {
         }
     },
 
-    ["Apartment Furnished"] = {
+    ["Apartment Furnished"] = { 
         label = "Apartment Furnished",
         hash = `furnitured_midapart`,
         doorOffset = { x = 1.44, y = -10.25, z = 0.0, h = 0.0, width = 1.5  },
         stash = {
-            maxweight = 200000, 
-            slots = 25,
+            maxweight = 1000000, 
+            slots = 50,
         },
         imgs = {
             {
@@ -186,13 +159,13 @@ Config.Shells = {
         },
     },
 
-    ["Apartment Unfurnished"] = {
+    ["Apartment Unfurnished"] = { 
         label = "Apartment Unfurnished",
         hash = `shell_v16mid`,
         doorOffset = { x = 1.34, y = -14.36, z = -0.5, h = 354.08, width = 1.5  },
         stash = {
-            maxweight = 200000, 
-            slots = 25,
+            maxweight = 1000000, 
+            slots = 50,
         },
         imgs = {
             {
@@ -218,7 +191,7 @@ Config.Shells = {
         },
     },
 
-    ["Apartment 2 Unfurnished"] = {
+    ["Apartment 2 Unfurnished"] = { 
         label = "Apartment 2 Unfurnished",
         hash = `shell_v16low`,
         doorOffset = { x = 4.69, y = -6.5, z = -1.0, h = 358.50, width = 1.5  },
@@ -242,7 +215,7 @@ Config.Shells = {
         },
     },
 
-    ["Garage"] = {
+    ["Garage"] = { 
         label = "Garage",
         hash = `shell_garagem`,
         doorOffset = { x = 14.0, y = 1.7, z = -0.76, h = 88.49, width = 2.0  },
@@ -262,7 +235,7 @@ Config.Shells = {
         },
     },
 
-    ["Office"] = {
+    ["Office"] = { 
         label = "Office",
         hash = `shell_office1`,
         doorOffset = { x = 1.2, y = 4.90, z = -0.73, h = 180.0, width = 2.0  },
@@ -282,7 +255,7 @@ Config.Shells = {
         },
     },
 
-    ["Store"] = {
+    ["Store"] = { 
         label = "Store",
         hash = `shell_store1`,
         doorOffset = { x = -2.69, y = -4.56, z = -0.62, h = 1.91, width = 2.0  },
@@ -307,7 +280,7 @@ Config.Shells = {
         hash = `shell_warehouse1`,
         doorOffset = { x = -8.96, y = 0.11, z = -0.95, h = 270.64, width = 2.0  },
         stash = {
-            maxweight = 1000000, 
+            maxweight = 10000000, 
             slots = 100,
         },
         imgs = {
@@ -487,8 +460,8 @@ Config.Shells = {
         hash = `shell_trevor`,
         doorOffset = { x = 0.2, y = -3.82, z = -0.41, h = 358.4, width = 2.0  },
         stash = {
-            maxweight = 10000, 
-            slots = 12,
+            maxweight = 100000, 
+            slots = 20,
         },
         imgs = {
             {
@@ -523,8 +496,8 @@ Config.Shells = {
         hash = `shell_trailer`,
         doorOffset = { x = -1.27, y = -2.08, z = -0.48, h = 358.84, width = 2.0  },
         stash = {
-            maxweight = 10000, 
-            slots = 12,
+            maxweight = 100000, 
+            slots = 20,
         },
         imgs = {
             {
@@ -538,6 +511,1724 @@ Config.Shells = {
             {
                 url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714471665274980/room1.webp",
                 label = "Room",
+            },
+        },
+    },
+    -- Start of Paid Shells --
+    -- Medium Housing Shells V1 https://www.k4mb1maps.com/package/4672307
+
+    ["Medium 2"] = { 
+        label = "Medium 2",
+        hash = `shell_medium2`,
+        doorOffset = { x = 6.054199, y = 0.382324, z = 0.33, h = 183.214432, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/SxgTnMsj/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Medium 3"] = {  
+        label = "Medium 3",
+        hash = `shell_medium3`,
+        doorOffset = { x = -2.531494, y = 7.683968, z = 1.199226, h = 9.501015, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/kGCF1J4k/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Modern Housing Shells V1 https://www.k4mb1maps.com/package/4673169
+
+    ["Banham"] = { 
+        label = "Banham",
+        hash = `shell_banham`,
+        doorOffset = { x = -3.309204, y = -1.633553, z = 1.546971, h = 273.254150, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/t4sPzZks/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Westons"] = { 
+        label = "Westons",
+        hash = `shell_westons`,
+        doorOffset = { x = 4.260498, y = 10.597954, z = 1.359489, h = 355.482849, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/66Hy16yn/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Westons 2"] = { 
+        label = "Westons 2",
+        hash = `shell_westons2`,
+        doorOffset = { x = -1.785950, y = 10.628555, z = 1.359482, h =357.443848, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/yNB182D7/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Classic Housing Shells V1 https://www.k4mb1maps.com/package/4673140
+
+    ["Classic House"] = { 
+        label = "Classic House",
+        hash = `classichouse_shell`,
+        doorOffset = { x = 4.673340, y = -2.040459, z = -2.374672, h = 267.887787, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/WbLbyDsD/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Classic House 2"] = { 
+        label = "Classic House 2",
+        hash = `classichouse2_shell`,
+        doorOffset = { x = 4.774292, y = -2.059242, z = -2.374664, h = 271.965576, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/yg9zEim.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Classic House 3"] = {  
+        label = "Classic House 3",
+        hash = `classichouse3_shell`,
+        doorOffset = { x = 4.698425, y = -2.107468, z = -2.374580, h = 274.642731, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/aHciV42.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Highend Housing Shells V1 https://www.k4mb1maps.com/package/4673131
+
+    ["Highend House 1"] = { 
+        label = "Highend House 1",
+        hash = `shell_apartment1`,
+        doorOffset = { x = -2.065613, y = 9.043091, z = 4.212166, h = 9.205745, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/WkPGJ64.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Highend House 2"] = { 
+        label = "Highend House 2",
+        hash = `shell_apartment2`,
+        doorOffset = { x = -2.120056, y = 9.027351, z = 4.212135, h = 358.497131, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/whRGjN7.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Highend House 3"] = { 
+        label = "Highend House 3",
+        hash = `shell_apartment3`,
+        doorOffset = { x = 11.797729, y = 4.479141, z = 4.019722, h = 298.838257, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/EFDaOf7.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Deluxe Housing Shells V1 https://www.k4mb1maps.com/package/4673159
+
+    ["Deluxe House 1"] = { 
+        label = "Deluxe House 1",
+        hash = `shell_highend`,
+        doorOffset = { x = -22.304382, y = -0.381943, z = 8.217484, h = 90.820076, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/EnO4wYN.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Deluxe House 2"] = {  
+        label = "Deluxe House 2",
+        hash = `shell_highendv2`,
+        doorOffset = { x = -10.422729, y = 1.049477, z = 2.554939, h = 89.392380, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/VdxIIny.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Stash House Shells https://www.k4mb1maps.com/package/4673273
+
+    ["Stash House 1"] = {  
+        label = "Stash House 1",
+        hash = `stashhouse_shell`,
+        doorOffset = { x = 21.884460, y = -0.477188, z = -0.860867, h = 265.865234, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/2YZHoRo.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Stash House 2"] = {  
+        label = "Stash House 2",
+        hash = `stashhouse2_shell`,
+        doorOffset = { x = -1.904419, y = 2.107719, z = 0.001724, h = 90.334167, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/fEqGKes.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Garage Shells https://www.k4mb1maps.com/package/4673177
+
+    ["Garage Low End"] = {  
+        label = "Garage Low End",
+        hash = `shell_garages`,
+        doorOffset = { x = 5.884705, y = 3.771614, z = 0.890028, h = 358.834900, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/877EQ4p.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Garage High End"] = { 
+        label = "Garage High End",
+        hash = `shell_garagel`,
+        doorOffset = { x = 13.139648, y = -14.397865, z = 0.490021, h = 268.182465, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/ztJiJnD.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Office Shells https://www.k4mb1maps.com/package/4673258
+
+    ["Office Big"] = {  
+        label = "Office Big",
+        hash = `shell_officebig`,
+        doorOffset = { x = -12.479675, y = 2.942459, z = 0.388428, h = 347.092407, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/0nITGT5.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Office 2"] = {
+        label = "Office 2",
+        hash = `shell_office2`,
+        doorOffset = { x = 3.640808, y = -1.798042, z = -0.064388, h = 272.434692, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/EkLbng3.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Store Shells https://www.k4mb1maps.com/package/4673264
+
+    ["Barber"] = {  -- Offset Set
+        label = "Barber",
+        hash = `shell_barber`,
+        doorOffset = { x = 1.619507, y = 5.448441, z = 0.547150, h = 352.416687, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/sOWNHqZ.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Gunstore"] = { 
+        label = "Gunstore",
+        hash = `shell_gunstore`,
+        doorOffset = { x = -3.822266, y = 4.547615, z = 0.226540, h = 84.654144, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/05H6rLl.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Store 1"] = {
+        label = "Store 1",
+        hash = `shell_store2`,
+        doorOffset = { x = -0.754944, y = -5.073349, z = 0.03311, h = 183.253403, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/Jnnp34sK/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Store 2"] = { 
+        label = "Store 2",
+        hash = `shell_store3`,
+        doorOffset = { x = -0.088440, y = -7.873283, z = -0.291031, h = 181.573059, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/DwcVB0zK/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Warehouse Shells https://www.k4mb1maps.com/package/4673185
+
+    ["Warehouse 2"] = { 
+        label = "Warehouse 2",
+        hash = `shell_warehouse2`,
+        doorOffset = { x = -12.605469, y = 5.650505, z = -1.249057, h = 92.038658, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/UHCyXxx.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Warehouse 3"] = { 
+        label = "Warehouse 3",
+        hash = `shell_warehouse3`,
+        doorOffset = { x = 2.615845, y = -1.639626, z = 0.032785, h = 265.172577, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/pCASZHW.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Highend Lab Shells https://www.k4mb1maps.com/package/4698329
+
+    ["Coke Lab"] = { 
+        label = "Coke Lab",
+        hash = `k4coke_shell`,
+        doorOffset = { x = -11.034729, y = -2.585449, z = 1.084032, h = 84.567940, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/TSCoUD5.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Meth Lab"] = { 
+        label = "Meth Lab",
+        hash = `k4meth_shell`,
+        doorOffset = { x = -11.056274, y = -2.391937, z = 1.033997, h = 95.467041, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/VPrq2Hm.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Weed Lab"] = {
+        label = "Weed Lab",
+        hash = `k4weed_shell`,
+        doorOffset = { x = -11.056274, y = -2.391937, z = 1.033997, h = 95.467041, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/9cjPHDv.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Furnished Stash House Shells  https://www.k4mb1maps.com/package/4672293
+
+    ["Container 2"] = {  
+        label = "Container 2",
+        hash = `container2_shell`,
+        doorOffset = { x = -0.055847, y = -5.738403, z = 0.203583, h = 182.422287, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/mR0qefn.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Furnished Stash 1"] = { 
+        label = "Furnished Stash 1",
+        hash = `stashhouse1_shell`,
+        doorOffset = { x = 21.876343, y = -0.494499, z = -1.060875, h = 269.420013, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/wOuMdAd.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Furnished Stash 2"] = { 
+        label = "Furnished Stash 2",
+        hash = `stashhouse3_shell`,
+        doorOffset = { x = -0.069702, y = 5.556145, z = 1.001724, h = 1.231537, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/mNR4dlf.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Furnished Housing Shells https://www.k4mb1maps.com/package/4672272
+
+    ["Furnished Low Apartment"] = {
+        label = "Furnished Low Apartment",
+        hash = `furnitured_lowapart`,
+        doorOffset = { x = 4.987915, y = -1.297272, z = 0.644341, h = 182.231705, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/eJsrr95.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Furnished Motel"] = {  
+        label = "Furnished Motel",
+        hash = `furnitured_motel`,
+        doorOffset = { x = -1.582336, y = -4.000572, z = 0.350227, h = 178.740875, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/KaM6Do0.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Furnished Motel Shells  https://www.k4mb1maps.com/package/4672296
+
+    ["Furnished Motel Classic"] = { 
+        label = "Furnished Motel Classic",
+        hash = `classicmotel_shell`,
+        doorOffset = { x = 0.110229, y = -3.621178, z = 0.927431, h = 176.643326, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/yxmr6Ho.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Furnished Motel Highend"] = { 
+        label = "Furnished Motel Highend",
+        hash = `highendmotel_shell`,
+        doorOffset = { x = 3.166016, y = 3.437752, z = 1.511177, h = 359.003723, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/D9x6sZ8.png",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Furnished Modern Hotels https://www.k4mb1maps.com/package/4672290
+
+    ["Furnished Motel Modern 2"] = { 
+        label = "Furnished Motel Modern 2",
+        hash = `modernhotel2_shell`,
+        doorOffset = { x = 4.915161, y = 4.373589, z = -0.811356, h = 356.947540, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/A5QE8zu.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Furnished Motel Modern 3"] = { 
+        label = "Furnished Motel Modern 3",
+        hash = `modernhotel3_shell`,
+        doorOffset = { x = 4.915161, y = 4.373589, z = -0.811356, h = 356.947540, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/bBGReNa.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Drug Lab Shells https://www.k4mb1maps.com/package/4672285
+
+    ["Coke Lab 2"] = {
+        label = "Coke Lab 2",
+        hash = `shell_coke1`,
+        doorOffset = { x = -6.202942, y = 8.675499, z = -0.948524, h = 3.513277, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/xjY7iex.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Coke Lab 3"] = {
+        label = "Coke Lab 3",
+        hash = `shell_coke2`,
+        doorOffset = { x = -6.202942, y = 8.675499, z = -0.948524, h = 3.513277, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/sIz8HJH.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Weed Lab 2"] = {
+        label = "Weed Lab 2",
+        hash = `shell_weed`,
+        doorOffset = { x = 17.723694, y = 11.703583, z = -1.086952, h = 266.951019, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/plfcLLq.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Weed Lab 3"] = {
+        label = "Weed Lab 3",
+        hash = `shell_weed2`,
+        doorOffset = { x = 17.723694, y = 11.703583, z = -1.086952, h = 266.951019, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/hgStpvb.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Mansion Housing Shells https://www.k4mb1maps.com/package/4783251
+
+    ["Mansion"] = { 
+        label = "Mansion",
+        hash = `k4_mansion_shell`,
+        doorOffset = { x = -0.332092, y = -0.633469, z = 1.976494, h = 356.236053, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/Bc8zrwe.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Mansion 2"] = { 
+        label = "Mansion 2",
+        hash = `k4_mansion2_shell`,
+        doorOffset = { x = -0.332092, y = -0.633469, z = 1.976494, h = 356.236053, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/w5W4sht.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Mansion 3"] = { 
+        label = "Mansion 3",
+        hash = `k4_mansion3_shell`,
+        doorOffset = { x = -0.332092, y = -0.633469, z = 1.976494, h = 356.236053, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/cjePkXD.png",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Empty Hotel Shells https://www.k4mb1maps.com/package/4811134
+
+    ["Empty Hotel"] = {
+        label = "Empty Hotel",
+        hash = `k4_hotel1_shell`,
+        doorOffset = { x = 5.050293, y = 4.302322, z = 0.204382, h = 12.632211, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/Mqbxvpb.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Empty Hotel 2"] = {
+        label = "Empty Hotel 2",
+        hash = `k4_hotel2_shell`,
+        doorOffset = { x = 5.050293, y = 4.302322, z = 0.204382, h = 12.632211, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/s0798cm.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Empty Hotel 3"] = {
+        label = "Empty Hotel 3",
+        hash = `k4_hotel3_shell`,
+        doorOffset = { x = 5.050293, y = 4.302322, z = 0.204382, h = 12.632211, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/8bNagxs.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Empty Motel Shells https://www.k4mb1maps.com/package/4811137
+
+    ["Empty Motel 1"] = {
+        label = "Empty Hotel 1",
+        hash = `k4_motel1_shell`,
+        doorOffset = { x = -0.387939, y = -2.442581, z = 0.546417, h = 92.286362, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/XotKvqO.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Empty Motel 2"] = {
+        label = "Empty Hotel 2",
+        hash = `k4_motel2_shell`,
+        doorOffset = { x = 0.098450, y = -3.660027, z = 0.327438, h = 169.217407, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/7VGpSQ3.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Empty Motel 3"] = {
+        label = "Empty Hotel 3",
+        hash = `k4_motel3_shell`,
+        doorOffset = { x = 3.088074, y = 3.410507, z = 0.311147, h = 7.086909, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/kNYFaoB.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Default Shells V2 https://www.k4mb1maps.com/package/5015832
+
+    ["Default V2"] = { 
+        label = "Default V2",
+        hash = `default_housing1_k4mb1`,
+        doorOffset = { x = -2.203308, y = -5.880142, z = 0.312798, h = 177.924591, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/Q3U8LMR.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 2"] = { 
+        label = "Default V2 2",
+        hash = `default_housing2_k4mb1`,
+        doorOffset = { x = -4.351929, y = 17.318459, z = 0.589027, h = 94.611198, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/sbeeOmF.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 3"] = { 
+        label = "Default V2 3",
+        hash = `default_housing3_k4mb1`,
+        doorOffset = { x = -1.382263, y = -1.966370, z = 0.589027, h = 184.387848, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/dbUnodK.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 4"] = { 
+        label = "Default V2 4",
+        hash = `default_housing4_k4mb1`,
+        doorOffset = { x = 0.284485, y = -3.759293, z = 0.398003, h = 180.391235, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/zLj89Cx.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 5"] = { 
+        label = "Default V2 5",
+        hash = `default_housing5_k4mb1`,
+        doorOffset = { x = 1.353271, y = -14.258728, z = 0.482475, h = 178.609268, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/vvmck91.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 6"] = { 
+        label = "Default V2 6",
+        hash = `default_housing6_k4mb1`,
+        doorOffset = { x = 4.75, y = -6.49, z = 1.03, h = 359.60, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/Uj0i8OA.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Deluxe Shells V2 https://www.k4mb1maps.com/package/5043817
+
+    ["Default V2 Deluxe 1"] = { 
+        label = "Default V2 Deluxe 1",
+        hash = `deluxe_housing1_k4mb1`,
+        doorOffset = { x = -22.28, y = -0.45, z = 7.26, h = 268.97, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/eCbzDAO.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 Deluxe 2"] = { 
+        label = "Default V2 Deluxe 2",
+        hash = `deluxe_housing2_k4mb1`,
+        doorOffset = { x = -10.30, y = 0.87, z = 6.55, h = 274.91, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/L65txkmx/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 Deluxe 3"] = { 
+        label = "Default V2 Deluxe 3",
+        hash = `deluxe_housing3_k4mb1`,
+        doorOffset = { x = -9.37, y = 5.66, z = 1.08, h = 270.04, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/gjQnSZK7/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Highend Shells V2 https://www.k4mb1maps.com/package/5043819
+
+    ["Default V2 Highend 1"] = { 
+        label = "Default V2 Highend 1",
+        hash = `highend_housing1_k4mb1`,
+        doorOffset = { x = -2.22, y = 9.02, z = 8.69, h = 182.64, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/Lsx4QP9V/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 Highend 2"] = { 
+        label = "Default V2 Highend 2",
+        hash = `highend_housing2_k4mb1`,
+        doorOffset = { x = -2.22, y = 9.02, z = 3.69, h = 171.95, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.postimg.cc/Zn6pp1xV/image.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 Highend 3"] = { 
+        label = "Default V2 Highend 3",
+        hash = `highend_housing3_k4mb1`,
+        doorOffset = { x = 11.48, y = 4.50, z = 2.42, h = 128.15, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/AYXgllp.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Medium Shells V2 https://www.k4mb1maps.com/package/5043821
+
+    ["Default V2 Medium 1"] = { 
+        label = "Default V2 Medium 1",
+        hash = `medium_housing1_k4mb1`,
+        doorOffset = { x = -0.24, y = -5.66, z = 1.71, h = 1.5, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/4ZP1Hhj.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 Medium 2"] = { 
+        label = "Default V2 Medium 2",
+        hash = `medium_housing2_k4mb1`,
+        doorOffset = { x = 6.04, y = 0.34, z = 1.03, h = 357.99, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/CNl6Y6U.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 Modern 1"] = { 
+        label = "Default V2 Modern 1",
+        hash = `modern_housing1_k4mb1`,
+        doorOffset = { x = 4.29, y = 10.52, z = 6.30, h = 178.92, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/kwamQ3d.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 Modern 2"] = { 
+        label = "Default V2 Modern 2",
+        hash = `modern_housing2_k4mb1`,
+        doorOffset = { x = -1.76, y = 10.37, z = 6.30, h = 184.71, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/GbCc5az.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Default V2 Modern 3"] = { 
+        label = "Default V2 Modern 3",
+        hash = `modern_housing3_k4mb1`,
+        doorOffset = { x = -3.39, y = -1.45, z = 5.65, h = 90.77, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/rMvwGIk.png",
+                label = "Main",
+            },
+        },
+    },
+
+    -- K4mv1 Vinewood V2 Shells -- https://www.k4mb1maps.com/package/5251329
+
+    ["Vinewood House 1"] = { 
+        label = "Vinewood House 1",
+        hash = `vinewood_housing1_k4mb1`,
+        doorOffset = { x = 11.11, y = -2.74, z = -1.96, h = 2.11, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/c0jBmHA.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Vinewood House 2"] = { 
+        label = "Vinewood House 2",
+        hash = `vinewood_housing2_k4mb1`,
+        doorOffset = { x = 1.57, y = 4.96, z = 2.63, h = 2.11, width = 2.0  },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/VTpADnq.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Vinewood House 3"] = { 
+        label = "Vinewood House 3",
+        hash = `vinewood_housing3_k4mb1`,
+        doorOffset = { x = 3.376343, y = 7.023643, z = -1.314102, h = 358.111084, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/zIlHyEd.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -------- K4MB1 September Update
+
+    ["Gun Warehouse"] = { 
+        label = "Gun Warehouse",
+        hash = `gunworkshop_k4mb1`,
+        doorOffset = { x = 0.192078, y = 4.834053, z = 0.04474, h = 13.497379, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/WFZIhW6.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Luxury House 1"] = { 
+        label = "Luxury House 1",
+        hash = `luxury_housing1_k4mb1`,
+        doorOffset = { x = -6.254883, y = -0.971245, z = 0.290186, h = 90.720238, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/JzGvTIJ.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Luxury House 2"] = { 
+        label = "Luxury House 2",
+        hash = `luxury_housing2_k4mb1`,
+        doorOffset = { x = -6.254883, y = -0.971245, z = 0.290186, h = 90.720238, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/vwo9isq.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Luxury House 3"] = { 
+        label = "Luxury House 3",
+        hash = `luxury_housing3_k4mb1`,
+        doorOffset = { x = -6.254883, y = -0.971245, z = 0.290186, h = 90.720238, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/eUSWm9a.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Luxury House 4"] = { 
+        label = "Luxury House 4",
+        hash = `luxury_housing4_k4mb1`,
+        doorOffset = { x = -6.254883, y = -0.971245, z = 0.290186, h = 90.720238, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/Vdzidcl.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Manor House"] = { 
+        label = "Manor House",
+        hash = `manor_housing1_k4mb1`,
+        doorOffset = { x = 6.998413, y = -9.082809, z = -4.461197, h = 171.419128, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/kl8vbTR.png",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Garage 1"] = { 
+        label = "Garage 1",
+        hash = `new_garages1_k4mb1`,
+        doorOffset = { x = -0.074097, y = 14.418221, z = 0.227368, h = 4.358186, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/DzKIs7b.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Garage 2"] = { 
+        label = "Garage 2",
+        hash = `new_garages2_k4mb1`,
+        doorOffset = { x = -3.840881, y = 0.061546, z = 0.271158, h = 93.910896, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/taHqvp3.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Garage 3"] = { 
+        label = "Garage 3",
+        hash = `new_garages3_k4mb1`,
+        doorOffset = { x = -3.840881, y = 0.061546, z = 0.271158, h = 93.910896, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/GaWxLqK.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Garage 4"] = { 
+        label = "Garage 4",
+        hash = `new_garages4_k4mb1`,
+        doorOffset = { x = 8.864685, y = 1.396446, z = 0.240021, h = 257.749420, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/jiUiclG.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Safehouse"] = { 
+        label = "Safehouse",
+        hash = `safehouse_k4mb1`,
+        doorOffset = { x = -5.219299, y = 0.992210, z = 0.422609, h = 90.287308, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/6qDRB6o.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Warehouse New"] = { 
+        label = "Warehouse New",
+        hash = `warehouse_k4mb1`,
+        doorOffset = { x = 13.626404, y = -7.377777, z = 0.062355, h = 271.706299, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/7Lr6BhT.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Basement Shells
+
+    ["Basement 1"] = {
+        label = "Basement 1",
+        hash = `k4mb1_basement1_shell`,
+        doorOffset = { x = -4.433105, y = -5.026131, z = 2.087505, h = 282.243042, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/lMBhdoh.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Basement 2"] = {
+        label = "Basement 2",
+        hash = `k4mb1_basement2_shell`,
+        doorOffset = { x = -4.433105, y = -5.026131, z = 2.087505, h = 282.243042, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/fmKqVAh.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Basement 3"] = {
+        label = "Basement 3",
+        hash = `k4mb1_basement3_shell`,
+        doorOffset = { x = -4.433105, y = -5.026131, z = 2.087505, h = 282.243042, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/PNoNF3Z.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Basement 4"] = {
+        label = "Basement 1",
+        hash = `k4mb1_basement4_shell`,
+        doorOffset = { x = -4.433105, y = -5.026131, z = 2.087505, h = 282.243042, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/aUzSmS2.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Basement 5"] = {
+        label = "Basement 5",
+        hash = `k4mb1_basement5_shell`,
+        doorOffset = { x = -4.433105, y = -5.026131, z = 2.087505, h = 282.243042, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/c5Bsw5D.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Casino Hotel
+
+    ["Casino Hotel"] = {
+        label = "Casino Hotel",
+        hash = `k4mb1_casinohotel_shell`,
+        doorOffset = { x = -3.187805, y = 0.033974, z = 0.269237, h = 89.810524, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/aofBHPU.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- New Houses
+
+    ["New House 1"] = {
+        label = "New House 1",
+        hash = `k4mb1_house1_shell`,
+        doorOffset = { x = -3.067688, y = -4.681236, z = 0.251027, h = 175.452164, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/DBuqjra.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["New House 2"] = {
+        label = "New House 2",
+        hash = `k4mb1_house2_shell`,
+        doorOffset = { x = -8.668701, y = 1.073402, z = -2.66641, h = 91.663055, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/9mrSVnM.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["New House 3"] = {
+        label = "New House 3",
+        hash = `k4mb1_house3_shell`,
+        doorOffset = { x = 8.915161, y = -7.808540, z = -2.778366, h = 179.078522, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/ldMYXDd.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["New House 4"] = {
+        label = "New House 4",
+        hash = `k4mb1_house4_shell`,
+        doorOffset = { x = -2.266785, y = -2.810730, z = -0.477043, h = 172.800339, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/TcUmnhn.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Furnished Offices
+
+    ["Furnished Office 1"] = {
+        label = "Furnished Office 1",
+        hash = `k4mb1_furnishedoffice1_shell`,
+        doorOffset = { x = 3.719788, y = -2.079552, z = 0.209363, h = 280.910675, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/2Bx8ZUG.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Furnished Office 2"] = {
+        label = "Furnished Office 2",
+        hash = `k4mb1_furnishedoffice2_shell`,
+        doorOffset = { x = 4.511353, y = 3.777588, z = 0.236115, h = 0.092184, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/Z238UsI.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Furnished Office 3"] = {
+        label = "Furnished Office 3",
+        hash = `k4mb1_furnishedoffice3_shell`,
+        doorOffset = { x = -0.394165, y = -0.269791, z = 0.284723, h = 271.696899, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/WiEkg0W.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Furnished Office 4"] = {
+        label = "Furnished Office 4",
+        hash = `k4mb1_furnishedoffice4_shell`,
+        doorOffset = { x = 8.910767, y = -2.257172, z = -0.50, h = 271.956726, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/WX2p6KT.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    ["Furnished Office 5"] = {
+        label = "Furnished Office 5",
+        hash = `k4mb1_furnishedoffice5_shell`,
+        doorOffset = { x = 0.082825, y = -14.847366, z = -2.064041, h = 176.828186, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/Eh9DZIV.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Hood House
+
+    ["Hood House"] = {
+        label = "Hood House",
+        hash = `k4mb1_hoodhouse1_shell`,
+        doorOffset = { x = -2.302673, y = -7.549805, z = 0.990021, h = 273.597229, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/TOP0UvX.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Laundry Shell
+
+    ["Laundry Place"] = {
+        label = "Laundry Place",
+        hash = `k4mb1_laundry_shell`,
+        doorOffset = { x = -9.774292, y = 6.686043, z = -2.103569, h = 0.829192, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/fiQ3jdk.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Paleto House
+
+    ["Paleto House"] = {
+        label = "Paleto House",
+        hash = `k4mb1_palhouse1_shell`,
+        doorOffset = { x = -0.504944, y = 5.641617, z = -0.653427, h = 274.895630, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/qtXDZNv.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Sandy House
+
+    ["Sandy House"] = {
+        label = "Sandy House",
+        hash = `k4mb1_sandyhouse1_shell`,
+        doorOffset = { x = 1.784729, y = -4.900810, z = 0.204388, h = 185.714050, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/KBdGAhL.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Empty House
+
+    ["Empty House"] = {
+        label = "Empty House",
+        hash = `kambi_emptyhouse1`,
+        doorOffset = { x = -0.754883, y = -2.407021, z = 1.690036, h = 89.197845, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/paCo4hO.jpeg",
+                label = "Main",
+            },
+        },
+    },
+
+    -- Furnished House
+
+    ["Furnished New House"] = {
+        label = "Furnished New House",
+        hash = `kambi_furnishedhouse1`,
+        doorOffset = { x = -0.752930, y = -2.258316, z = 0.990021, h = 91.935936, width = 2.0 },
+        stash = {
+            maxweight = 100000,
+            slots = 20,
+        },
+        imgs = {
+            {
+                url = "https://i.imgur.com/kAoRRdp.jpeg",
+                label = "Main",
             },
         },
     },
@@ -561,6 +2252,7 @@ Config.FurnitureTypes = {
         Framework[Config.Target].AddTargetEntity(entity, "Clothing", "fas fa-shirt", function()
             local heading = GetEntityHeading(cache.ped)
             SetEntityHeading(cache.ped, heading - 180.0)
+            TriggerServerEvent("InteractSound_SV:PlayOnSource", "Clothes1", 0.4)
             TriggerEvent("qb-clothing:client:openOutfitMenu")
         end)
 
@@ -1054,6 +2746,8 @@ Config.Furnitures = {
             { ["object"] = "hei_heist_acc_artgolddisc_03", ["price"] = 250, ["label"] = "wall deco 4" },
             { ["object"] = "hei_heist_acc_artgolddisc_04", ["price"] = 250, ["label"] = "wall deco 5" },
             { ["object"] = "v_ilev_ra_doorsafe", ["price"] = 250, ["label"] = "Luxury deco" },
+            { ["object"] = "vw_prop_vw_wallart_58a", ["price"] = 250, ["label"] = "Trash Panda Painting" },
+            
         }
     },
 
@@ -1227,51 +2921,68 @@ Config.Furnitures = {
     {
         category = "Doors", -- All from Base Game.
         items = {
-            { ["object"] = "v_ilev_fa_frontdoor", ["price"] = 300, ["type"] = "door", ["label"] = "White Door" },
-            { ["object"] = "v_ilev_247_offdorr", ["price"] = 300, ["type"] = "door", ["label"] = "24/7 Wooden Door" },
-            { ["object"] = "v_ilev_arm_secdoor", ["price"] = 300, ["type"] = "door", ["label"] = "Security Door" },
-            { ["object"] = "v_ilev_bank4door01", ["price"] = 300, ["type"] = "door", ["label"] = "Bank Glass Door" },
-            { ["object"] = "v_ilev_bk_gate", ["price"] = 300, ["type"] = "door", ["label"] = "Fancy Metal Gate" },
-            { ["object"] = "v_ilev_cbankcountdoor01", ["price"] = 300, ["type"] = "door",  ["label"] = "Bank Office Door" },
-            { ["object"] = "v_ilev_cd_door", ["price"] = 300, ["type"] = "door", ["label"] = "Wooden Door with Glass" },
-            { ["object"] = "v_ilev_cm_door1", ["price"] = 300, ["type"] = "door", ["label"] = "Light Blue Door" },
-            { ["object"] = "v_ilev_dev_door", ["price"] = 300, ["type"] = "door", ["label"] = "Black House Door" },
-            { ["object"] = "v_ilev_door_orangesolid", ["price"] = 300, ["type"] = "door", ["label"] = "Orange Solid Door" },
-            { ["object"] = "v_ilev_fa_backdoor", ["price"] = 300, ["type"] = "door", ["label"] = "Dirty Glass Door" },
-            { ["object"] = "v_ilev_gangsafedoor", ["price"] = 300, ["type"] = "door", ["label"] = "Gang Safe Door" },
-            { ["object"] = "v_ilev_gc_door02", ["price"] = 300, ["type"] = "door", ["label"] = "Office Door" },
-            { ["object"] = "v_ilev_janitor_frontdoor", ["price"] = 300, ["type"] = "door",  ["label"] = "White Mesh Door" },
-            { ["object"] = "v_ilev_rc_door1", ["price"] = 300, ["type"] = "door", ["label"] = "Yellow Fire Door" },
-            { ["object"] = "v_ilev_roc_door2", ["price"] = 300, ["type"] = "door", ["label"] = "Solid Red Door" },
-            { ["object"] = "v_ilev_sol_off_door01", ["price"] = 300, ["type"] = "door", ["label"] = "Solid Wooden Door" },
-            { ["object"] = "v_ilev_stad_fdoor", ["price"] = 300, ["type"] = "door", ["label"] = "Glass Door with Rails" },
-            { ["object"] = "v_ilev_tort_door", ["price"] = 300, ["type"] = "door", ["label"] = "Door with Danger Sign" },
-            { ["object"] = "v_ilev_trevtraildr", ["price"] = 300, ["type"] = "door", ["label"] = "Trailer Door" },
-            { ["object"] = "prop_cs_fridge_door", ["price"] = 300, ["type"] = "door", ["label"] = "Fridge Door" },
-            { ["object"] = "prop_artgallery_dl", ["price"] = 300, ["type"] = "door", ["label"] = "White Art Gallery Door" },
-            { ["object"] = "prop_bh1_09_mp_l", ["price"] = 300, ["type"] = "door",  ["label"] = "Weazel Plaza Door" },
-            { ["object"] = "prop_bh1_48_backdoor_l", ["price"] = 300, ["type"] = "door", ["label"] = "Black Glass Door" },
-            { ["object"] = "prop_casino_door_01r", ["price"] = 300, ["type"] = "door", ["label"] = "Casino Glass Door" },
-            { ["object"] = "prop_cs4_11_door", ["price"] = 300, ["type"] = "door", ["label"] = "White Door with Small Window" },
-            { ["object"] = "prop_cs6_03_door_r", ["price"] = 300, ["type"] = "door", ["label"] = "Antique Wooden Door" },
-            { ["object"] = "prop_grumandoor_r", ["price"] = 300, ["type"] = "door", ["label"] = "Golden Snake Door" },
-            { ["object"] = "prop_motel_door_09", ["price"] = 300, ["type"] = "door", ["label"] = "Motel Door" },
-            { ["object"] = "prop_fnclink_03gate5", ["price"] = 300, ["type"] = "door", ["label"] = "Chainlink Fence" },
+            { ["object"] = "v_ilev_fa_frontdoor", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "White Door" },
+            { ["object"] = "v_ilev_247_offdorr", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "24/7 Wooden Door" },
+            { ["object"] = "v_ilev_arm_secdoor", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Security Door" },
+            { ["object"] = "v_ilev_bank4door01", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Bank Glass Door" },
+            { ["object"] = "v_ilev_bk_gate", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Fancy Metal Gate" },
+            { ["object"] = "v_ilev_cbankcountdoor01", ["price"] = 300, ["type"] = "door", ["max"] = 6, ["label"] = "Bank Office Door" },
+            { ["object"] = "v_ilev_cd_door", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Wooden Door with Glass" },
+            { ["object"] = "v_ilev_cd_door2", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Wooden Door without Glass" },
+            { ["object"] = "v_ilev_cd_door3", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Dark Wooden Door" },
+            { ["object"] = "v_ilev_cm_door1", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Light Blue Door" },
+            { ["object"] = "v_ilev_dev_door", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Black House Door" },
+            { ["object"] = "v_ilev_door_orangesolid", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Orange Door With Glass" },
+            { ["object"] = "v_ilev_door_orange", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Orange Solid Door" },
+            { ["object"] = "v_ilev_fa_backdoor", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Dirty Glass Door" },
+            { ["object"] = "v_ilev_fa_dinedoor", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Dirty Full Glass Door" },
+            { ["object"] = "v_ilev_gangsafedoor", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Gang Safe Door" },
+            { ["object"] = "v_ilev_gc_door01", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Grey Office Door" },
+            { ["object"] = "v_ilev_gc_door02", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Office Door" },
+            { ["object"] = "v_ilev_gc_door03", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Business Office Door" },
+            { ["object"] = "v_ilev_janitor_frontdoor", ["price"] = 300, ["type"] = "door", ["max"] = 6, ["label"] = "White Mesh Door" },
+            { ["object"] = "v_ilev_rc_door1", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Yellow Fire Door" },
+            { ["object"] = "v_ilev_roc_door2", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Solid Red Door" },
+            { ["object"] = "v_ilev_sol_off_door01", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Solid Wooden Door" },
+            { ["object"] = "v_ilev_stad_fdoor", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Glass Door with Rails" },
+            { ["object"] = "v_ilev_tort_door", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Door with Danger Sign" },
+            { ["object"] = "v_ilev_trevtraildr", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Trailer Door" },
+            { ["object"] = "prop_cs_fridge_door", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Fridge Door" },
+            { ["object"] = "p_cut_door_01", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "White Door 2" },
+            { ["object"] = "p_cut_door_02", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "White Door 3" },
+            { ["object"] = "p_cut_door_03", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "White Door 4" },
+            { ["object"] = "prop_abat_slide", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Garage Door" },
+            { ["object"] = "prop_artgallery_02_dl", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Art Door 2 Left" },
+            { ["object"] = "prop_artgallery_02_dl", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Art Door 2 Right" },
+            { ["object"] = "prop_artgallery_dl", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Art Door Left" },
+            { ["object"] = "prop_artgallery_dl", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Art Door Right" },
+            { ["object"] = "prop_bh1_09_mp_l", ["price"] = 300, ["type"] = "door", ["max"] = 6, ["labelv_ilev_fa_"] = "Weazel Plaza Door" },
+            { ["object"] = "prop_bh1_48_backdoor_l", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Black Glass Door" },
+            { ["object"] = "prop_casino_door_01r", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Casino Glass Door Right" },
+            { ["object"] = "prop_casino_door_01l", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Casino Glass Door Left" },
+            { ["object"] = "prop_cs4_11_door", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "White Door with Small Window" },
+            { ["object"] = "prop_cs6_03_door_r", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Antique Wooden Door Right" },
+            { ["object"] = "prop_cs6_03_door_l", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Antique Wooden Door Left" },
+            { ["object"] = "prop_grumandoor_r", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Golden Snake Door" },
+            { ["object"] = "prop_motel_door_09", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Motel Door" },
+            { ["object"] = "prop_fnclink_03gate5", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Chainlink Fence" },
+            { ["object"] = "prop_cs_freightdoor_l1", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Freight Door Left" },
+            { ["object"] = "prop_cs_freightdoor_r1", ["price"] = 300, ["type"] = "door", ["max"] = 6,["label"] = "Freight Door Right" },
         }
     },
 
     {
         category = "Walls",
         items = {
-            { ["object"] = "ps_wall_aqua", ["price"] = 1000, ["label"] = "Aqua Wall" },
-            { ["object"] = "ps_wall_black", ["price"] = 1000, ["label"] = "Black Wall" },
-            { ["object"] = "ps_wall_green", ["price"] = 1000, ["label"] = "Green Wall" },
-            { ["object"] = "ps_wall_grey", ["price"] = 1000, ["label"] = "Grey Wall" },
-            { ["object"] = "ps_wall_purple", ["price"] = 1000, ["label"] = "Purple Wall" },
-            { ["object"] = "ps_wall_red", ["price"] = 1000, ["label"] = "Red Wall" },
-            { ["object"] = "ps_wall_white", ["price"] = 1000, ["label"] = "White Wall" },
-            { ["object"] = "ps_wall_yellow", ["price"] = 1000, ["label"] = "Yellow Wall" },
-            { ["object"] = "ps_wall_wall", ["price"] = 1000, ["label"] = "Brick Wall" },
+            { ["object"] = "ps_wall_aqua", ["price"] = 100, ["label"] = "Aqua Wall" },
+            { ["object"] = "ps_wall_black", ["price"] = 100, ["label"] = "Black Wall" },
+            { ["object"] = "ps_wall_green", ["price"] = 100, ["label"] = "Green Wall" },
+            { ["object"] = "ps_wall_grey", ["price"] = 100, ["label"] = "Grey Wall" },
+            { ["object"] = "ps_wall_purple", ["price"] = 100, ["label"] = "Purple Wall" },
+            { ["object"] = "ps_wall_red", ["price"] = 100, ["label"] = "Red Wall" },
+            { ["object"] = "ps_wall_white", ["price"] = 100, ["label"] = "White Wall" },
+            { ["object"] = "ps_wall_yellow", ["price"] = 100, ["label"] = "Yellow Wall" },
+            { ["object"] = "ps_wall_wall", ["price"] = 100, ["label"] = "Brick Wall" },
         }
     },
 
