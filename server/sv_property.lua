@@ -188,6 +188,8 @@ function Property:UpdateDescription(data)
 
     TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateDescription", self.property_id, description)
 
+    Framework[Config.Logs].SendLog("**Changed Description** of property with id: " .. self.property_id .. " by: " .. GetPlayerName(realtorSrc))
+
     Debug("Changed Description of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
 
@@ -206,6 +208,8 @@ function Property:UpdatePrice(data)
 
     TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdatePrice", self.property_id, price)
 
+    Framework[Config.Logs].SendLog("**Changed Price** of property with id: " .. self.property_id .. " by: " .. GetPlayerName(realtorSrc))
+
     Debug("Changed Price of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
 
@@ -221,6 +225,8 @@ function Property:UpdateForSale(data)
     })
 
     TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateForSale", self.property_id, forsale)
+
+    Framework[Config.Logs].SendLog("**Changed For Sale** of property with id: " .. self.property_id .. " by: " .. GetPlayerName(realtorSrc))
 
     Debug("Changed For Sale of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
@@ -239,6 +245,8 @@ function Property:UpdateShell(data)
     })
 
     TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateShell", self.property_id, shell)
+
+    Framework[Config.Logs].SendLog("**Changed Shell** of property with id: " .. self.property_id .. " by: " .. GetPlayerName(realtorSrc))
 
     Debug("Changed Shell of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
@@ -348,6 +356,8 @@ function Property:UpdateOwner(data)
 
     TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateOwner", self.property_id, citizenid)
 
+    Framework[Config.Logs].SendLog("**House Bought** by: **"..PlayerData.charinfo.firstname.." "..PlayerData.charinfo.lastname.."** for $"..self.propertyData.price.." from **"..realtor.PlayerData.charinfo.firstname.." "..realtor.PlayerData.charinfo.lastname.."** !")
+
     Framework[Config.Notify].Notify(targetSrc, "You have bought the property for $"..self.propertyData.price, "success")
     Framework[Config.Notify].Notify(realtorSrc, "Client has bought the property for $"..self.propertyData.price, "success")
 end
@@ -364,6 +374,8 @@ function Property:UpdateImgs(data)
     })
 
     TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateImgs", self.property_id, imgs)
+
+    Framework[Config.Logs].SendLog("**Changed Images** of property with id: " .. self.property_id .. " by: " .. GetPlayerName(realtorSrc))
 
     Debug("Changed Imgs of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
@@ -399,6 +411,8 @@ function Property:UpdateDoor(data)
     })
 
     TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateDoor", self.property_id, newDoor, data.street, data.region)
+
+    Framework[Config.Logs].SendLog("**Changed Door** of property with id: " .. self.property_id .. " by: " .. GetPlayerName(realtorSrc))
 
     Debug("Changed Door of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
@@ -444,6 +458,8 @@ function Property:UpdateGarage(data)
     
     TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateGarage", self.property_id, garage)
 
+    Framework[Config.Logs].SendLog("**Changed Garage** of property with id: " .. self.property_id .. " by: " .. GetPlayerName(realtorSrc))
+
     Debug("Changed Garage of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
 
@@ -460,8 +476,10 @@ function Property:UpdateApartment(data)
     })
 
     Framework[Config.Notify].Notify(realtorSrc, "Changed Apartment of property with id: " .. self.property_id .." to ".. apartment, "success")
-    
+
     Framework[Config.Notify].Notify(targetSrc, "Changed Apartment to " .. apartment, "success")
+
+    Framework[Config.Logs].SendLog("**Changed Apartment** with id: " .. self.property_id .. " by: **" .. GetPlayerName(realtorSrc) .. "** for **" .. GetPlayerName(targetSrc) .."**")
 
     TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateApartment", self.property_id, apartment)
 
@@ -470,22 +488,27 @@ end
 
 function Property:DeleteProperty(data)
     local realtorSrc = data.realtorSrc
+    local propertyid = self.property_id
+    local realtorName = GetPlayerName(realtorSrc)
 
     MySQL.Async.execute("DELETE FROM properties WHERE property_id = @property_id", {
-        ["@property_id"] = self.property_id
+        ["@property_id"] = propertyid
     }, function (rowsChanged)
         if rowsChanged > 0 then
-            Debug("Deleted property with id: " .. self.property_id, "by: " .. GetPlayerName(data.realtorSrc))
+            Debug("Deleted property with id: " .. propertyid, "by: " .. realtorName)
         end
     end)
 
-    TriggerClientEvent("ps-housing:client:removeProperty", -1, self.property_id)
+    TriggerClientEvent("ps-housing:client:removeProperty", -1, propertyid)
 
-    Framework[Config.Notify].Notify(realtorSrc, "Property with id: " .. self.property_id .." has been removed.", "info")
-    
-    Debug("Deleted property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
-    PropertiesTable[self.property_id] = nil
+    Framework[Config.Notify].Notify(realtorSrc, "Property with id: " .. propertyid .." has been removed.", "info")
+
+    Framework[Config.Logs].SendLog("**Property Deleted** with id: " .. propertyid .. " by: " .. realtorName)
+
+    PropertiesTable[propertyid] = nil
     self = nil
+
+    Debug("Deleted property with id: " .. propertyid, "by: " .. realtorName)
 end
 
 function Property.Get(property_id)
@@ -669,15 +692,10 @@ RegisterNetEvent("ps-housing:server:buyFurniture", function(property_id, items, 
         return
     end
 
-    if price > PlayerData.money.bank then
-<<<<<<< Updated upstream
-=======
+    if price <= PlayerData.money.cash then
         Player.Functions.RemoveMoney('cash', price, "Bought furniture")
     else
->>>>>>> Stashed changes
         Player.Functions.RemoveMoney('bank', price, "Bought furniture")
-    else
-        Player.Functions.RemoveMoney('cash', price, "Bought furniture")
     end
 
     local numFurnitures = #property.propertyData.furnitures
@@ -690,6 +708,9 @@ RegisterNetEvent("ps-housing:server:buyFurniture", function(property_id, items, 
     property:UpdateFurnitures(property.propertyData.furnitures)
 
     Framework[Config.Notify].Notify(src, "You bought furniture for $" .. price, "success")
+
+    Framework[Config.Logs].SendLog("**Player ".. GetPlayerName(src) .. "** bought furniture for **$" .. price .. "**")
+
     Debug("Player bought furniture for $" .. price, "by: " .. GetPlayerName(src))
 end)
 

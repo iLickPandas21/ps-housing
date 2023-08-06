@@ -29,6 +29,16 @@ if IsDuplicityVersion() then
         -- Used for ox_inventory compat
     end
 
+    function Framework.qb.SendLog(message)
+        if Config.EnableLogs then
+            TriggerEvent('qb-log:server:CreateLog', 'pshousing', 'Housing System', 'blue', message)
+        end
+    end
+    
+    function Framework.ox.SendLog(message)
+            -- noop
+    end
+
     return
 end
 
@@ -80,7 +90,6 @@ Framework.qb = {
                         icon = "fas fa-eye",
                         action = showcase,
                         canInteract = function()
-                            local PlayerData = QBCore.Functions.GetPlayerData()
                             local job = PlayerData.job
                             local jobName = job.name
                             local onDuty = job.onduty
@@ -92,7 +101,6 @@ Framework.qb = {
                         icon = "fas fa-circle-info",
                         action = showData,
                         canInteract = function()
-                            local PlayerData = QBCore.Functions.GetPlayerData()
                             local job = PlayerData.job
                             local jobName = job.name
                             local onDuty = job.onduty
@@ -113,7 +121,6 @@ Framework.qb = {
                         icon = "fas fa-building-shield",
                         action = raid,
                         canInteract = function()
-                            local PlayerData = QBCore.Functions.GetPlayerData()
                             local job = PlayerData.job
                             local jobName = job.name
                             local gradeAllowed = tonumber(job.grade.level) >= Config.MinGradeToRaid
@@ -157,7 +164,6 @@ Framework.qb = {
                     action = seeAllToRaid,
                     icon = "fas fa-building-shield",
                     canInteract = function()
-                        local PlayerData = QBCore.Functions.GetPlayerData()
                         local job = PlayerData.job
                         local jobName = job.name
                         local gradeAllowed = tonumber(job.grade.level) >= Config.MinGradeToRaid
@@ -314,7 +320,6 @@ Framework.ox = {
                         -- local property = Property.Get(property_id)
                         -- if property.propertyData.owner ~= nil then return false end -- if its owned, it cannot be showcased
                         
-                        local PlayerData = QBCore.Functions.GetPlayerData()
                         local job = PlayerData.job
                         local jobName = job.name
 
@@ -326,7 +331,6 @@ Framework.ox = {
                     icon = "fas fa-circle-info",
                     onSelect = showData,
                     canInteract = function()
-                        local PlayerData = QBCore.Functions.GetPlayerData()
                         local job = PlayerData.job
                         local jobName = job.name
                         local onDuty = job.onduty
@@ -347,7 +351,6 @@ Framework.ox = {
                     icon = "fas fa-building-shield",
                     onSelect = raid,
                     canInteract = function()
-                        local PlayerData = QBCore.Functions.GetPlayerData()
                         local job = PlayerData.job
                         local jobName = job.name
                         local gradeAllowed = tonumber(job.grade.level) >= Config.MinGradeToRaid
@@ -388,7 +391,6 @@ Framework.ox = {
                     onSelect = seeAllToRaid,
                     icon = "fas fa-building-shield",
                     canInteract = function()
-                        local PlayerData = QBCore.Functions.GetPlayerData()
                         local job = PlayerData.job
                         local jobName = job.name
                         local gradeAllowed = tonumber(job.grade.level) >= Config.MinGradeToRaid

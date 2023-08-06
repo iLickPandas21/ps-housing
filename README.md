@@ -53,15 +53,18 @@ Dynamic Doors will turn placed doors into actual working doors, Instead of them 
 
 ### Preview
 
-https://github.com/complexza/ps-housing/assets/74205343/fef28197-8e95-4b5f-aba8-b3e5409456d8
+https://github.com/complexza/ps-housing/assets/74205343/72cfc135-2f78-42b3-a540-45f02567b6d7
 
-https://github.com/complexza/ps-housing/assets/74205343/196bb25e-75b9-42f6-b1c3-fe86ad477544
+https://github.com/complexza/ps-housing/assets/74205343/0ff26e7f-1341-45fc-8fc6-d65421dec0b2
 
 ### Setup
 - You will need to set the `Config.DynamicDoors = true`
 - You will have to add this convar into your server.cfg `setr game_enableDynamicDoorCreation "true"`
 
 > Note: The convar has to be in your server.cfg in order for the doors to be dynamic!
+
+### Shell Support
+* [K4MB1](https://github.com/Project-Sloth/ps-housing/wiki/K4MB1-Shells-Support-&-Offsets)
 
 # Important
 
@@ -264,6 +267,17 @@ end)
 9. In your server.cfg, add `ensure ox_lib` above all other resources
 
 10. Install the dependencies below.
+
+## Logs System Setup
+
+1. Go to `qb-smallresources/server/logs.lua` and add this:
+```lua
+    ['pshousing'] = 'yourdiscordwebhookhere',
+```
+2. Create a webhook for the channel you want the logs to show up in.
+3. Replace the placeholder with your webhook link.
+
+> This system only supports qb-core for now.
 
 # Dependency
 1. [bl-realtor](https://github.com/Byte-Labs-Project/bl-realtor)
