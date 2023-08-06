@@ -84,11 +84,11 @@ AddEventHandler("ps-housing:server:registerProperty", function (propertyData) --
         property:PlayerEnter(src)
 
         Wait(1000)
-        -- This is so that we dont force migrated people to create first character
-        local shouldJustMigrate = MySQL.query.await("SELECT citizenid FROM player_apartment_migrations WHERE citizenid = ?", { propertyData.owner })
-        if not shouldJustMigrate or not shouldJustMigrate[1] then
+
+        local appearance = MySQL.query.await("SELECT skin FROM playerskins WHERE citizenid = ?", {propertyData.owner})
+        if not appearance then
             TriggerClientEvent("qb-clothes:client:CreateFirstCharacter", src)
-            MySQL.insert.await("INSERT INTO player_apartment_migrations (citizenid) VALUES (@cid)", { ["@cid"] = propertyData.owner })
+            Debug("Player: "..propertyData.owner.." is creating a new character!")
         end
 
         Framework[Config.Notify].Notify(src, "Open radial menu for furniture menu and place down your stash and clothing locker.", "info")
